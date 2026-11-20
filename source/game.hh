@@ -1,5 +1,6 @@
 #ifndef GAME_HH
 #define GAME_HH 1
+
 #define u1 unsigned int
 
 #include "cirno.hh"
@@ -10,10 +11,10 @@ enum GameState {
 	kGameState_Paused
 };
 
-extern const u1 kTargetFps;
+const u1 kTargetFps = 60;
 
-extern const Vector2_t kWindowSize;
-extern const int kPixelScale;
+const int kPixelScale = 4;
+const Vector2_t kWindowSize = {100 * kPixelScale, 100 * kPixelScale};
 
 extern u1 g_tick; // Tick del programa
 
