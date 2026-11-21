@@ -2,7 +2,7 @@
 #include <esat/time.h>
 #include <esat/input.h>
 
-#include "game.hh"
+#include "../game.hh"
 
 
 int esat::main(int argc, char **argv) {

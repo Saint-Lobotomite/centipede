@@ -7,22 +7,25 @@
 
 
 enum GameState {
-	kGameState_Running,
+	kGameState_Menu,
 	kGameState_Paused
 };
 
 const u1 kTargetFps = 60;
 
 const int kPixelScale = 4;
-const Vector2_t kWindowSize = {100 * kPixelScale, 100 * kPixelScale};
+const Vector2_t kWindowSize = {256 * kPixelScale, 240 * kPixelScale};
 
 extern u1 g_tick; // Tick del programa
 
 struct Game_t {
 	GameState state;
 
-	u1 last_paused;
-	u1 tick; // Tick del juego, no avanza si esta pausado
+	bool paused = false;
+
+	u1 tick = 0; // Tick del juego, no avanza si esta pausado
+
+	unsigned int round;
 };
 
 extern Game_t g_game;
