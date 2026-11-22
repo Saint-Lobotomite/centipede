@@ -1,12 +1,12 @@
 #include <windows.h>
 #include <esat/sprite.h>
+#include <stdio.h>
 
 #include "mask.hh"
 
-void FromFile(Mask_t *mask, const char *path, 
-  Vector2_t sub_position = {0,0},
-  Vector2_t sub_size = {0,0}
-) {
+#include "../loader.hh"
+
+void FromFile(Mask_t *mask, const char *path, Vector2_t sub_position, Vector2_t sub_size) {
 	esat::SpriteHandle sprite = esat::SpriteFromFile(path);
 
 	if (!isZero(sub_size)) {
@@ -39,9 +39,19 @@ void FromFile(Mask_t *mask, const char *path,
 
       esat::SpriteGetPixel(sprite, x,y, RGBA);
 
-      //if (RGBA[3] == 255) { // El pixel es opaco
-      //  WriteBit(mask, x,y, 1);
-      //}
+      if (RGBA[3] == 255) { // El pixel es opaco
+        if (RGBA[0] >= 200) { // Rojo o veige
+
+          if (RGBA[1] >= 200) { // Veige
+            WritePair(mask, x,y, 1);
+          } else {
+            WritePair(mask, x,y, 2);
+          }
+
+        } else { // Verde
+          WritePair(mask, x,y, 3);
+        }
+      }
 
     }
   }
@@ -50,16 +60,14 @@ void FromFile(Mask_t *mask, const char *path,
 }
 
 
-u1 GetIndex(Mask_t *mask, int x, int y) {
-    return (y * mask->size.x + x) / 2;
+int GetIndex(Mask_t *mask, int x, int y) {
+    return y * mask->size.x + x;
 }
 
 bool IsValidPosition(Mask_t *mask, int x, int y) {
-    return (
-        x < mask->size.x
-        && y < mask->size.y
-        && GetIndex(mask, x,y) / 4 < kMask_WordCount
-    );
+    return x >= 0 && y >= 0
+        && x < mask->size.x && y < mask->size.y 
+        && GetIndex(mask, x, y) / 4 < kMask_WordCount;
 }
 
 
@@ -68,30 +76,29 @@ u1 ReadPair(u1 word, u1 i) {
 }
 
 void WritePair(u1 *word, u1 i, u1 v) {
-	u1 selector = 3 << (i*2);
-
-	if (v) 	*word |= selector; // bits a 1
-	else 		*word &= ~selector; // bits a 0
+	u1 shift = i * 2;
+  
+  *word = 
+  (*word & ~(3 << shift)) // Limpiar
+  | ((v & 3) << shift); // Set
 }
 
 
 u1 ReadPair(Mask_t *mask, int x, int y) {
-	u1 i = GetIndex(mask, x,y);
+    u1 i = GetIndex(mask, x, y);
 
-	return ReadPair(
-		mask->matrix[i / 4],
-		i % 4 
-	);
+    return ReadPair(
+      mask->matrix[i / 4], 
+      i % 4
+    );
 }
 
-void WritePair(Mask_t, int x, int y, u1 v) {
-	u1 i = GetIndex(mask, x,y);
+void WritePair(Mask_t *mask, int x, int y, u1 v) {
+    u1 i = GetIndex(mask, x, y);
 
-	return WritePair(
-		mask->matrix[i / 4],
-		i % 4,
-		v
-	);
+    WritePair(
+      &mask->matrix[i / 4], 
+      i % 4, 
+      v
+    );
 }
-
-#endif // MASK_HH

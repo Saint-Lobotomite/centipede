@@ -3,7 +3,6 @@
 #include "../game.hh"
 
 void UpdateStep() {
-
-
+  g_game.tick++;
 
 }

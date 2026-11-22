@@ -15,6 +15,7 @@
 *.ilk
 
 # Debugger Files
+.ini
 *.pdb
 
 # Compiled Dynamic libraries

@@ -1,7 +1,10 @@
+#ifndef u1
+#define u1 unsigned char
+#endif
+
 #ifndef GAME_HH
 #define GAME_HH 1
 
-#define u1 unsigned int
 
 #include "cirno.hh"
 
@@ -13,17 +16,17 @@ enum GameState {
 
 const u1 kTargetFps = 60;
 
-const int kPixelScale = 4;
-const Vector2_t kWindowSize = {256 * kPixelScale, 240 * kPixelScale};
+const int kPixelScale = 2;
+const Vector2_t kWindowSize = {128 * kPixelScale, 120 * kPixelScale};
 
-extern u1 g_tick; // Tick del programa
+extern unsigned int g_tick; // Tick del programa
 
 struct Game_t {
 	GameState state;
 
 	bool paused = false;
 
-	u1 tick = 0; // Tick del juego, no avanza si esta pausado
+	unsigned int tick = 0; // Tick del juego, no avanza si esta pausado
 
 	unsigned int round;
 };

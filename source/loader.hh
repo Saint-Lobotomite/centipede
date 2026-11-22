@@ -1,8 +1,11 @@
 #ifndef LOADER_HH
 #define LOADER_HH
 
+#include <esat/sprite.h>
 #include "structs/mask.hh"
 #include "structs/track.hh"
+
+extern u1 g_current_palette;
 
 enum CentipedeTrackN {
   kCentipedeTrack_Left,
@@ -17,21 +20,26 @@ enum CentipedeTrackN {
 
 const int kCentipedeSheetInfo[8][3] = {
   { 0, 0, 8 }, // Left // Donde esta, cuanto mide
-  { 6, 0, 2 }, // DL
+  { 6, 1, 2 }, // DL
   { 0, 1, 4 }, // D
   { 14, 1, 2 }, // DR
   { 8, 0, 8 }, // R
   { 4, 1, 2 }, // UL
   { 8, 1, 4 }, // U
   { 12, 1, 2 } // UR
-}
+};
 
 struct Assets_t {
+  esat::SpriteHandle palette;
+
   Track_t centipede[16];
 };
 
 extern Assets_t g_assets;
 
 void LoadAssets();
+void ReleaseAssets();
+
+void ReadPalette(u1 i, u1 out_RGBA[4]);
 
 #endif // LOADER_HH
