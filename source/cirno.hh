@@ -5,6 +5,7 @@ int clamp(int x, int lower, int upper);
 int sign(int x);
 int pow(int base, int exp);
 int log(unsigned int n, unsigned int base = 2);
+int abs(int x);
 
 struct Vector2_t {
   int x,y;

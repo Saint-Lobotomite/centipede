@@ -10,6 +10,8 @@
 #include "update.hh"
 #include "render.hh"
 
+#include "../structs/centipede.hh" // TEMP
+
 int esat::main(int argc, char **argv) {
 	double last_time;
 	double current_time;
@@ -22,6 +24,20 @@ int esat::main(int argc, char **argv) {
 	WindowSetMouseVisibility(true); // Quitar
 
 	LoadAssets();
+
+	Centipede_t *buddy;
+	Centipede_t *old = nullptr;
+	for (int i = 0; i < 12; i++) {
+		buddy = Centipede_Construct();
+		buddy->body.position = {16 + i*8, 94};
+		buddy->hdir = -1;
+		buddy->speed = 2;
+		buddy->body.track_tick = i;
+		UpdateTrack(buddy);
+
+		if (old != nullptr) LinkTo(buddy, old);
+		old = buddy;
+	}
 
 	while(
 		esat::WindowIsOpened() 

@@ -35,7 +35,7 @@ static bool ShouldPaint(Mask_t *mask,
 
 
 void Draw(Body_t *self) {
-	Mask_t *mask = GetMask(&self->track);
+	Mask_t *mask = GetCurrentMask(self);
 
 	u1 RGBA[4] = {0};
 	int ox = 0; // Origin x

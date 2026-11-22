@@ -16,8 +16,8 @@ enum GameState {
 
 const u1 kTargetFps = 60;
 
-const int kPixelScale = 2;
-const Vector2_t kWindowSize = {128 * kPixelScale, 120 * kPixelScale};
+const int kPixelScale = 4;
+const Vector2_t kWindowSize = {128, 120}; // 240x256
 
 extern unsigned int g_tick; // Tick del programa
 
