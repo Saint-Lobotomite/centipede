@@ -25,11 +25,11 @@ int esat::main(int argc, char **argv) {
 
 	LoadAssets();
 
-	Centipede_t *buddy;
+	Centipede_t *buddy = nullptr;
 	Centipede_t *old = nullptr;
 	for (int i = 0; i < 12; i++) {
-		buddy = Centipede_Construct();
-		buddy->body.position = {16 + i*8, 94};
+		Construct(buddy);
+		buddy->body.position = {16, 0};
 		buddy->hdir = -1;
 		buddy->speed = 2;
 		buddy->body.track_tick = i;

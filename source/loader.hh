@@ -33,6 +33,7 @@ struct Assets_t {
   esat::SpriteHandle palette;
 
   Track_t centipede[16];
+  Track_t mushroom[2];
 };
 
 extern Assets_t g_assets;

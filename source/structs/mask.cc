@@ -10,7 +10,7 @@ void FromFile(Mask_t *mask, const char *path, Vector2_t sub_position, Vector2_t 
 	esat::SpriteHandle sprite = esat::SpriteFromFile(path);
 
 	if (!isZero(sub_size)) {
-    printf("sub ");
+    //printf("sub ");
     esat::SpriteHandle aux = esat::SubSprite(sprite, 
       sub_position.x, sub_position.y, 
       sub_size.x, sub_size.y
@@ -30,7 +30,7 @@ void FromFile(Mask_t *mask, const char *path, Vector2_t sub_position, Vector2_t 
     printf("FromFile: %s es demasiado grande (%d x %d)", path, mx, my);
   }
 
-	printf("%d, %d\n", mx, my);
+	//printf("%d, %d\n", mx, my);
 
   mask->size = {mx, my};
 

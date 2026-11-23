@@ -25,8 +25,10 @@ struct Centipede_t {
 const u1 kCentipede_registry_capacity = 12;
 extern Centipede_t kCentipede_registry[kCentipede_registry_capacity];
 
-Centipede_t *Centipede_Construct(); // preguntar a fede si podemos hacer una funcion que pase una referencia
+void Construct(Centipede_t *self); // preguntar a fede si podemos hacer una funcion que pase una referencia
 void Destruct(Centipede_t *self);
+
+void Dead(Centipede_t *self);
 
 void UpdateTrack(Centipede_t *self);
 
@@ -36,11 +38,11 @@ void LinkTo(Centipede_t *self, Centipede_t *other);
 void Tick(Centipede_t *self);
 
 
-bool EdgeAhead(Centipede_t *self);
+bool IsEdgeAhead(Centipede_t *self);
 
-bool MushroomAhead(Centipede_t *self);
+bool IsMushroomAhead(Centipede_t *self);
 
-bool CreatureAhead(Centipede_t *self);
+bool IsCreatureAhead(Centipede_t *self);
 
 
 #endif // CENTIPEDE_HH

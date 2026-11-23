@@ -1,29 +1,27 @@
 #include <stdio.h>
 
 #include "centipede.hh"
+
 #include "../loader.hh"
 #include "../collision-handler.hh"
+#include "mushroom.hh"
 
-Centipede_t kCentipede_registry[kCentipede_registry_capacity] = {0};
+Centipede_t kCentipede_registry[kCentipede_registry_capacity] = {};
 
 
-Centipede_t *Centipede_Construct() {
-  Centipede_t *self = nullptr;
-
+void Construct(Centipede_t *self) {
   for (u1 i = 0; i < kCentipede_registry_capacity; i++) {
     if (!kCentipede_registry[i].active) {
 			self = &kCentipede_registry[i];
 			
 			(*self) = {};
 
-      self->active = true;
+     	self->active = true;
 			UpdateTrack(self);
 
       i = kCentipede_registry_capacity;
     }
   }
-
-  return self;
 }
 
 
@@ -31,6 +29,11 @@ void Destruct(Centipede_t *self) {
   self->active = false;
 }
 
+void Dead(Centipede_t *self) {
+	self->dying = true;
+
+	//TODO
+}
 
 void UpdateTrack(Centipede_t *self) {
 	u1 offset = self->heading == nullptr ? 0 : 8;
@@ -67,7 +70,7 @@ void Tick(Centipede_t *self) {
 		if (self->heading) {
 			turning = abs(self->heading->body.position.y - self->body.position.y) >= 8;
 		} else {
-			turning = self->poisoned || EdgeAhead(self); // o hay seta o hay otro centipede
+			turning = self->poisoned || IsEdgeAhead(self) || IsMushroomAhead(self); // o hay seta o hay otro centipede
 		}
 
 		if (turning) { // Elegimos la direccion vertical
@@ -91,8 +94,8 @@ void Tick(Centipede_t *self) {
 		UpdateTrack(self);
 	}
 		
-
-	self->body.position.x += self->speed * self->hdir;
+	if(self->body.position.y > -8)
+		self->body.position.x += self->speed * self->hdir;
 
 	if (self->body.position.y % 8 == 4) {
 		self->hdir = -self->hdir;
@@ -106,7 +109,7 @@ void Tick(Centipede_t *self) {
 
 // Ahead
 
-bool EdgeAhead(Centipede_t *self) {
+bool IsEdgeAhead(Centipede_t *self) {
 	return BoundaryCheck(
 		Sum(
 			self->body.position,
@@ -115,10 +118,15 @@ bool EdgeAhead(Centipede_t *self) {
 	);
 }
 
-bool MushroomAhead(Centipede_t *self) {
-	return false;
+bool IsMushroomAhead(Centipede_t *self) {
+	Vector2_t pos = Div(self->body.position, 8);
+	pos.x += self->hdir;
+	return (
+		IsValidMushroom(pos.x, pos.y)
+		&& kMushroom_registry[pos.x][pos.y].active
+	);
 }
 
-bool CreatureAhead(Centipede_t *self) {
+bool IsCreatureAhead(Centipede_t *self) {
 	return false;
 }
