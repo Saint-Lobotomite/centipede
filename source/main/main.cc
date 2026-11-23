@@ -28,9 +28,9 @@ int esat::main(int argc, char **argv) {
 	Centipede_t *buddy = nullptr;
 	Centipede_t *old = nullptr;
 	for (int i = 0; i < 12; i++) {
-		Construct(buddy);
-		buddy->body.position = {16, 0};
-		buddy->hdir = -1;
+		Construct(&buddy);
+		buddy->body.position = {16, -8};
+		buddy->hdir = 1;
 		buddy->speed = 2;
 		buddy->body.track_tick = i;
 		UpdateTrack(buddy);

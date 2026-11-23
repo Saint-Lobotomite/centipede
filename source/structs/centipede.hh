@@ -25,7 +25,7 @@ struct Centipede_t {
 const u1 kCentipede_registry_capacity = 12;
 extern Centipede_t kCentipede_registry[kCentipede_registry_capacity];
 
-void Construct(Centipede_t *self); // preguntar a fede si podemos hacer una funcion que pase una referencia
+void Construct(Centipede_t **self); // preguntar a fede si podemos hacer una funcion que pase una referencia
 void Destruct(Centipede_t *self);
 
 void Dead(Centipede_t *self);

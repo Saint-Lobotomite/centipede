@@ -20,7 +20,7 @@ extern Mushroom_t kMushroom_registry[32][30];
 
 bool IsValidMushroom(u1 x, u1 y);
 
-void Construct(Mushroom_t *self, u1 x, u1 y);
+void Construct(Mushroom_t **self, u1 x, u1 y);
 void Destruct(Mushroom_t *self);
 
 void UpdateTrack(Mushroom_t *self);

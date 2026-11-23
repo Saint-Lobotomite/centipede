@@ -9,15 +9,15 @@
 Centipede_t kCentipede_registry[kCentipede_registry_capacity] = {};
 
 
-void Construct(Centipede_t *self) {
+void Construct(Centipede_t **self) {
   for (u1 i = 0; i < kCentipede_registry_capacity; i++) {
     if (!kCentipede_registry[i].active) {
-			self = &kCentipede_registry[i];
+			(*self) = &kCentipede_registry[i];
 			
-			(*self) = {};
+			(**self) = {};
 
-     	self->active = true;
-			UpdateTrack(self);
+     	(*self)->active = true;
+			UpdateTrack(*self);
 
       i = kCentipede_registry_capacity;
     }

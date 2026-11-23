@@ -15,13 +15,13 @@ bool IsValidMushroom(u1 x, u1 y) {
 
 
 
-void Construct(Mushroom_t *self, u1 x, u1 y) {
+void Construct(Mushroom_t **self, u1 x, u1 y) {
   if (IsValidMushroom(x, y) && !kMushroom_registry[x][y].active) {
-    self = &kMushroom_registry[x][y];
-    (*self) = {};
-    self->active = true;
+    (*self) = &kMushroom_registry[x][y];
+    (**self) = {};
+    (*self)->active = true;
   } else {
-    self = nullptr;
+    (*self) = nullptr;
   }
 }
 
