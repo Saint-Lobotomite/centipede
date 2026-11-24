@@ -16,6 +16,7 @@ struct Mushroom_t {
 
 //const Vector2_t kMushroom_registry_size = {32, 30}; 
 
+extern u1 g_lower_mushroom_c; // Flea
 extern Mushroom_t kMushroom_registry[32][30];
 
 bool IsValidMushroom(u1 x, u1 y);
@@ -27,5 +28,7 @@ void UpdateTrack(Mushroom_t *self);
 
 void Damage(Mushroom_t *self);
 
+void ClearMushrooms();
+void SpreadMushrooms();
 
 #endif // MUSHROOM_HH

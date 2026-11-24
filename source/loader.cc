@@ -54,7 +54,7 @@ void LoadAssets() {
     );
 
     FromFile(&pmush_track->frame[i], "../../assets/sprites/mushroom.png",
-      { i * 8, 1}, { 8, 8 }
+      { i * 8, 8}, { 8, 8 }
     );
   }
 

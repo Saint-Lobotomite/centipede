@@ -1,11 +1,19 @@
 #ifndef CIRNO_PERFECT_MATH_HH
 #define CIRNO_PERFECT_MATH_HH 1
 
+#include <windows.h>
+
+#define u1 unsigned char
+
+
 int clamp(int x, int lower, int upper);
 int sign(int x);
 int pow(int base, int exp);
 int log(unsigned int n, unsigned int base = 2);
-int abs(int x);
+
+// abs ya esta definido en windows.h y alguna otra libreria, esat incluye algunas y crea conflictos
+//int abs(int x);
+
 
 struct Vector2_t {
   int x,y;

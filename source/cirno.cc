@@ -30,10 +30,6 @@ int log(unsigned int n, unsigned int base) {
   return c;
 }
 
-int abs(int v) {
-  if (v < 0) return -v;
-  return v;
-}
 
 bool isZero(Vector2_t v) {
   return v.x == 0 && v.y == 0;

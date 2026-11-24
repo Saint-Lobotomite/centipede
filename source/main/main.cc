@@ -4,6 +4,9 @@
 #include <esat/input.h>
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
 
 #include "../game.hh"
 #include "../loader.hh"
@@ -11,33 +14,41 @@
 #include "render.hh"
 
 #include "../structs/centipede.hh" // TEMP
+#include "../structs/mushroom.hh"
 
 int esat::main(int argc, char **argv) {
+	srand(time(NULL));
+
 	double last_time;
 	double current_time;
 
 	esat::WindowInit(
-		kWindowSize.x * kPixelScale, 
+		kWindowSize.x * kPixelScale,
 		kWindowSize.y * kPixelScale
 	);
 
-	WindowSetMouseVisibility(true); // Quitar
+	WindowSetMouseVisibility(false); // Quitar
 
 	LoadAssets();
 
+	// testinggg
+	// Spawn centis
 	Centipede_t *buddy = nullptr;
 	Centipede_t *old = nullptr;
 	for (int i = 0; i < 12; i++) {
 		Construct(&buddy);
 		buddy->body.position = {16, -8};
 		buddy->hdir = 1;
-		buddy->speed = 2;
+		buddy->speed = 4;
 		buddy->body.track_tick = i;
 		UpdateTrack(buddy);
 
 		if (old != nullptr) LinkTo(buddy, old);
 		old = buddy;
 	}
+
+	// Spawn scrooms
+	SpreadMushrooms();
 
 	while(
 		esat::WindowIsOpened() 

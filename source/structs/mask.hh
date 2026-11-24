@@ -1,7 +1,3 @@
-#ifndef u1
-#define u1 unsigned char
-#endif
-
 #ifndef MASK_HH
 #define MASK_HH 1
 

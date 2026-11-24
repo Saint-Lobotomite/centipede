@@ -37,7 +37,7 @@ void Dead(Centipede_t *self) {
 
 void UpdateTrack(Centipede_t *self) {
 	u1 offset = self->heading == nullptr ? 0 : 8;
-	u1 mod = self->body.position.y % 8;
+	u1 mod = abs(self->body.position.y) % 8;
 	
 	u1 track = self->hdir < 0 ? kCentipedeTrack_Left : kCentipedeTrack_Right;
 
@@ -63,7 +63,7 @@ void LinkTo(Centipede_t *self, Centipede_t *other) {
 
 
 void Tick(Centipede_t *self) {
-	bool turning = self->body.position.y % 8 != 0;
+	bool turning = self->body.position.y % 8 != 0; // Posicion negativa es siempre true porque -8 % 8 != 0
 
 	if (!turning) {
 
@@ -76,13 +76,13 @@ void Tick(Centipede_t *self) {
 		if (turning) { // Elegimos la direccion vertical
 			if (
 				self->vdir > 0 
-				&& self->body.position.y >= 112 // Fondo
+				&& self->body.position.y >= kPlayableBounds.y // Fondo
 			) {
 				self->vdir = -1;
 				self->poisoned = false;
 			} else if (
 				self->vdir < 0
-				&& self->body.position.y < 90 // Maximo del jugador
+				&& self->body.position.y < kPlayableBounds.x // Maximo del jugador
 			) {
 				self->vdir = 1;
 			}
@@ -119,8 +119,10 @@ bool IsEdgeAhead(Centipede_t *self) {
 }
 
 bool IsMushroomAhead(Centipede_t *self) {
-	Vector2_t pos = Div(self->body.position, 8);
-	pos.x += self->hdir;
+	Vector2_t pos = self->body.position;
+	pos.x += (self->hdir < 0) ? -5 : 12;
+	
+	pos = Div(pos, 8);
 	return (
 		IsValidMushroom(pos.x, pos.y)
 		&& kMushroom_registry[pos.x][pos.y].active
