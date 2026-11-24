@@ -2,19 +2,29 @@
 
 #include "game.hh"
 
-bool BoundaryCheck(Vector2_t pos) {
+bool BoundaryCheck(Vector2_t pos, Vector2_t size) {
   return (
-    pos.x + 8 > kWindowSize.x
-  || pos.y + 8 > kWindowSize.y
+    pos.x + size.x > kWindowSize.x
+  || pos.y + size.y > kWindowSize.y
   || pos.x < 0 || pos.y < 0
   );
 }
 
-bool BoundaryCheck(Body_t *self) {
-  Vector2_t old = self->position;
+bool BoundaryClamp(Body_t *self) {
+  return BoundaryClamp(
+    &self->position,
+    self->size
+  );
+}
 
-  self->position.x = clamp(old.x, 0, kWindowSize.x - 8);
-  self->position.y = clamp(old.y, 0, kWindowSize.y - 8);
+bool BoundaryClamp(Vector2_t *pos, Vector2_t size) {
+  Vector2_t old = (*pos);
 
-  return old.x != self->position.x || old.y != self->position.y;
+  pos->x = clamp(pos->x, 0, kWindowSize.x - size.x);
+  pos->y = clamp(pos->y, 0, kWindowSize.y - size.y);
+
+  return (
+      old.x != pos->x 
+    || old.y != pos->y
+  );
 }

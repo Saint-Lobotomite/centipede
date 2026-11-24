@@ -122,10 +122,9 @@ bool IsMushroomAhead(Centipede_t *self) {
 	Vector2_t pos = self->body.position;
 	pos.x += (self->hdir < 0) ? -5 : 12;
 	
-	pos = Div(pos, 8);
 	return (
-		IsValidMushroom(pos.x, pos.y)
-		&& kMushroom_registry[pos.x][pos.y].active
+		IsMushroomPresent(pos.x, pos.y) 
+		|| IsMushroomPresent(self->body.position.x, self->body.position.y)
 	);
 }
 

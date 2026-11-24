@@ -11,13 +11,25 @@ Assets_t g_assets = {};
 
 void LoadAssets() {
   int i, j; // Iteradores
+  u1 length;
 
   g_assets.palette = esat::SpriteFromFile("../../assets/sprites/palette.png");
+
+  // Player
+  Track_t *plr_track = &g_assets.player;
+  plr_track->length = 3;
+  for (i = 0; i < 2; i++) {
+    FromFile(&plr_track->frame[i], "../../assets/sprites/player.png",
+      { i * 7, 0 }, { 7, 10 }
+    );
+  }
+  FromFile(&plr_track->frame[2], "../../assets/sprites/player.png",
+    { 14, 0 }, { 1, 6 }
+  );
   
   // Centipede
   Track_t *centi_track;
   Track_t *centibody_track;
-  u1 length;
   for (i = 0; i < 8; i++) {
     length = kCentipedeSheetInfo[i][2];
 
@@ -58,7 +70,6 @@ void LoadAssets() {
     );
   }
 
-  //
 }
 
 void ReadPalette(u1 i, u1 out_RGBA[4]) {

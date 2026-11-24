@@ -16,6 +16,14 @@ bool IsValidMushroom(u1 x, u1 y) {
   );
 }
 
+bool IsMushroomPresent(int x, int y) {
+  x /= 8; y /= 8;
+  return (
+    IsValidMushroom(x, y)
+    && kMushroom_registry[x][y].active
+  );
+}
+
 
 
 void Construct(Mushroom_t **self, u1 x, u1 y) {

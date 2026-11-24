@@ -2,7 +2,6 @@
 #define TRACK_HH
 
 #include "mask.hh"
-#include "../game.hh"
 
 struct Track_t {
   u1 length = 0;

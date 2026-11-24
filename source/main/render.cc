@@ -29,4 +29,12 @@ void RenderStep() {
     if (centi_ptr->active) Draw(&centi_ptr->body);
   }
 
+
+  // Player
+	if (g_game.current_player != nullptr) {
+  	if (g_game.current_player->active) {
+			if (g_game.current_player->shot_active) Draw(&g_game.current_player->shot);
+			Draw(&g_game.current_player->body);
+		}
+	}
 }

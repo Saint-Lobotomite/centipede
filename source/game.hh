@@ -14,7 +14,10 @@ const u1 kTargetFps = 60;
 const int kPixelScale = 4;
 
 const Vector2_t kTileSize = {32, 30};
-const Vector2_t kWindowSize = {kTileSize.x * 8, kTileSize.y * 8};
+const Vector2_t kWindowSize = {
+	kTileSize.x * 8, 
+	kTileSize.y * 8
+};
 const Vector2_t kPlayableBounds = {
 	(kTileSize.y - 4) *8,
 	(kTileSize.y - 1) *8
@@ -31,10 +34,8 @@ struct Game_t {
 
 	unsigned int tick = 0; // Tick del juego, no avanza si esta pausado
 
-	unsigned int round;
-
 	u1 current_player_n = 0;
-	Player_t *current_player;
+	Player_t *current_player = nullptr;
 };
 
 extern Game_t g_game;

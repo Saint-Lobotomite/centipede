@@ -15,6 +15,7 @@
 
 #include "../structs/centipede.hh" // TEMP
 #include "../structs/mushroom.hh"
+#include "../structs/player.hh"
 
 int esat::main(int argc, char **argv) {
 	srand(time(NULL));
@@ -49,6 +50,13 @@ int esat::main(int argc, char **argv) {
 
 	// Spawn scrooms
 	SpreadMushrooms();
+
+	kPlayer_registry[0] = {};
+	g_game.current_player = &kPlayer_registry[0];
+	g_game.current_player->active = true;
+	g_game.current_player->body.position = {
+		0, kPlayableBounds.y
+	};
 
 	while(
 		esat::WindowIsOpened() 

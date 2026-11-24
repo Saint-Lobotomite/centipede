@@ -13,7 +13,14 @@ void UpdateStep() {
 
   u1 i; // Iteradores
 
-  if (esat::IsKeyDown(' ')) g_current_palette = (g_current_palette+1) % 14;
+  if (esat::IsKeyDown('K')) g_current_palette = (g_current_palette+1) % 14;
+
+  //Player
+  if (g_game.current_player != nullptr) {
+    if (g_game.current_player->active) Tick(g_game.current_player);
+    if (esat::IsKeyPressed(' ')) Shoot(g_game.current_player);
+  }
+
 
   // Centipedes
   if (g_game.tick % 2 == 0) {
