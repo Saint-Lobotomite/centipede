@@ -20,7 +20,8 @@ extern u1 g_lower_mushroom_c; // Flea
 extern Mushroom_t kMushroom_registry[32][30];
 
 bool IsValidMushroom(u1 x, u1 y);
-bool IsMushroomPresent(int x, int y);
+Mushroom_t* GetMushroom(int x, int y);
+Mushroom_t* GetMushroom(Vector2_t pos);
 
 void Construct(Mushroom_t **self, u1 x, u1 y);
 void Destruct(Mushroom_t *self);

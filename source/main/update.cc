@@ -13,12 +13,13 @@ void UpdateStep() {
 
   u1 i; // Iteradores
 
+  if (esat::IsKeyDown('C')) g_game.credits++;
   if (esat::IsKeyDown('K')) g_current_palette = (g_current_palette+1) % 14;
 
   //Player
   if (g_game.current_player != nullptr) {
     if (g_game.current_player->active) Tick(g_game.current_player);
-    if (esat::IsKeyPressed(' ')) Shoot(g_game.current_player);
+    if (esat::IsKeyDown(' ')) Shoot(g_game.current_player);
   }
 
 

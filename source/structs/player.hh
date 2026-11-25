@@ -29,7 +29,7 @@ struct Player_t {
 };
 
 const u1 kPlayer_speed = 4;
-extern Player_t kPlayer_registry[2];
+extern Player_t kPlayer_registry[3];
 
 void UpdateTrack(Player_t *self);
 

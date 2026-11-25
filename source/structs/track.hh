@@ -6,7 +6,7 @@
 struct Track_t {
   u1 length = 0;
 
-  Mask_t frame[8] = {0};
+  Mask_t frame[38] = {0};
 };
 
 Mask_t* GetMask(Track_t *self);

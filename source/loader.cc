@@ -15,6 +15,17 @@ void LoadAssets() {
 
   g_assets.palette = esat::SpriteFromFile("../../assets/sprites/palette.png");
 
+  // Screen Text
+  Track_t *text_track = &g_assets.text;
+  length = 38;
+
+  text_track->length = length; 
+  for (i = 0; i < length; i++) {
+    FromFile(&text_track->frame[i], "../../assets/sprites/text.png",
+      { i * 8, 0 }, { 8, 8 }
+    );
+  }
+
   // Player
   Track_t *plr_track = &g_assets.player;
   plr_track->length = 3;
@@ -70,6 +81,15 @@ void LoadAssets() {
     );
   }
 
+  // Explosion
+  Track_t *expl_track = &g_assets.explosion;
+  length = 6;
+  expl_track->length = length;
+  for (i = 0; i < length; i++) {
+    FromFile(&expl_track->frame[i], "../../assets/sprites/explosion.png",
+      { i * 8, 0 }, { 8, 8 }
+    );
+  }
 }
 
 void ReadPalette(u1 i, u1 out_RGBA[4]) {

@@ -16,6 +16,7 @@
 #include "../structs/centipede.hh" // TEMP
 #include "../structs/mushroom.hh"
 #include "../structs/player.hh"
+#include "../screen-text.hh"
 
 int esat::main(int argc, char **argv) {
 	srand(time(NULL));
@@ -28,7 +29,7 @@ int esat::main(int argc, char **argv) {
 		kWindowSize.y * kPixelScale
 	);
 
-	WindowSetMouseVisibility(false); // Quitar
+	WindowSetMouseVisibility(true);
 
 	LoadAssets();
 
@@ -40,7 +41,7 @@ int esat::main(int argc, char **argv) {
 		Construct(&buddy);
 		buddy->body.position = {16, -8};
 		buddy->hdir = 1;
-		buddy->speed = 4;
+		buddy->speed = 2;
 		buddy->body.track_tick = i;
 		UpdateTrack(buddy);
 
@@ -57,6 +58,9 @@ int esat::main(int argc, char **argv) {
 	g_game.current_player->body.position = {
 		0, kPlayableBounds.y
 	};
+
+	// Text test
+	PutNumber(92923, 0,0);
 
 	while(
 		esat::WindowIsOpened() 

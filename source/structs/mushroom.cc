@@ -16,25 +16,31 @@ bool IsValidMushroom(u1 x, u1 y) {
   );
 }
 
-bool IsMushroomPresent(int x, int y) {
+Mushroom_t* GetMushroom(int x, int y) {
   x /= 8; y /= 8;
   return (
     IsValidMushroom(x, y)
     && kMushroom_registry[x][y].active
-  );
+  ) ? &kMushroom_registry[x][y] : nullptr;
+}
+
+Mushroom_t* GetMushroom(Vector2_t pos) {
+  return GetMushroom(pos.x, pos.y);
 }
 
 
-
 void Construct(Mushroom_t **self, u1 x, u1 y) {
-  if (IsValidMushroom(x, y) && !kMushroom_registry[x][y].active) {
+  if (
+    IsValidMushroom(x, y)
+    && !kMushroom_registry[x][y].active
+  ) {
     (*self) = &kMushroom_registry[x][y];
 
     (**self) = {};
 
     (*self)->active = true;
     (*self)->body.position = {x*8, y*8};
-
+    
     UpdateTrack(*self);
 
     if (y >= kTileSize.y - 18)
@@ -45,27 +51,32 @@ void Construct(Mushroom_t **self, u1 x, u1 y) {
 }
 
 void Destruct(Mushroom_t *self) {
-  if (self->body.position.y / 8 >= kTileSize.y - 18)
-      g_lower_mushroom_c--;
-
-  self->active = false;
+  if (self->active) {
+    if (self->body.position.y / 8 >= kTileSize.y - 18)
+        g_lower_mushroom_c--;
+  
+    self->active = false;
+  }
 }
 
 
 void UpdateTrack(Mushroom_t *self) {
   self->body.track = g_assets.mushroom[self->poisoned ? 1 : 0];
+  self->body.track_tick = 4 - self->health;
 }
 
 
 void Damage(Mushroom_t *self) {
-  self->health--;
+  if (self->health < 5) {
+    self->health--;
 
-  if (self->health == 0) {
-    Destruct(self);
-    // TODO Dar puntos
-  } else {
-    self->body.track_tick = 4-self->health;
-  }
+    if (self->health == 0) {
+      Destruct(self);
+      // TODO Dar puntos
+    } else {
+      self->body.track_tick = 4 - self->health;
+    }
+  } 
 }
 
 void Poison(Mushroom_t *self) {

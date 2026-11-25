@@ -32,9 +32,13 @@ const int kCentipedeSheetInfo[8][3] = {
 struct Assets_t {
   esat::SpriteHandle palette;
 
+  Track_t text;
+
   Track_t player;
   Track_t centipede[16];
   Track_t mushroom[2];
+  
+  Track_t explosion;
 };
 
 extern Assets_t g_assets;

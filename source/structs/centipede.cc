@@ -32,7 +32,24 @@ void Destruct(Centipede_t *self) {
 void Dead(Centipede_t *self) {
 	self->dying = true;
 
-	//TODO
+	if (self->heading)
+		self->heading->tailing = nullptr;
+	
+	self->heading = nullptr;
+
+	if (self->tailing) {
+		self->tailing->heading = nullptr;
+		UpdateTrack(self->tailing);
+	}
+
+	self->tailing = nullptr;
+
+	self->body.track = g_assets.explosion;
+	self->body.track_tick = 0;
+
+	Mushroom_t *mush;
+	Vector2_t pos = Sum(self->body.position, { self->hdir*5 + 4, 0 });
+	Construct(&mush, pos.x /8, pos.y /8);
 }
 
 void UpdateTrack(Centipede_t *self) {
@@ -63,43 +80,48 @@ void LinkTo(Centipede_t *self, Centipede_t *other) {
 
 
 void Tick(Centipede_t *self) {
-	bool turning = self->body.position.y % 8 != 0; // Posicion negativa es siempre true porque -8 % 8 != 0
+	if (self->dying) { if (self->body.track_tick == 5) Destruct(self); }
+	else {
 
-	if (!turning) {
+		bool turning = self->body.position.y % 8 != 0; // Posicion negativa es siempre true porque -8 % 8 != 0
 
-		if (self->heading) {
-			turning = abs(self->heading->body.position.y - self->body.position.y) >= 8;
-		} else {
-			turning = self->poisoned || IsEdgeAhead(self) || IsMushroomAhead(self); // o hay seta o hay otro centipede
-		}
+		if (!turning) {
 
-		if (turning) { // Elegimos la direccion vertical
-			if (
-				self->vdir > 0 
-				&& self->body.position.y >= kPlayableBounds.y // Fondo
-			) {
-				self->vdir = -1;
-				self->poisoned = false;
-			} else if (
-				self->vdir < 0
-				&& self->body.position.y < kPlayableBounds.x // Maximo del jugador
-			) {
-				self->vdir = 1;
+			if (self->heading) {
+				turning = abs(self->heading->body.position.y - self->body.position.y) >= 8;
+			} else {
+				turning = self->poisoned || IsEdgeAhead(self) || IsMushroomAhead(self); // o hay seta o hay otro centipede
+			}
+
+			if (turning) { // Elegimos la direccion vertical
+				if (
+					self->vdir > 0 
+					&& self->body.position.y >= kPlayableBounds.y // Fondo
+				) {
+					self->vdir = -1;
+					self->poisoned = false;
+				} else if (
+					self->vdir < 0
+					&& self->body.position.y < kPlayableBounds.x // Maximo del jugador
+				) {
+					self->vdir = 1;
+				}
 			}
 		}
-	}
 
-	if (turning) {
-		self->body.position.y += self->speed * self->vdir;
-		UpdateTrack(self);
-	}
-		
-	if(self->body.position.y > -8)
-		self->body.position.x += self->speed * self->hdir;
+		if (turning) {
+			self->body.position.y += self->speed * self->vdir;
+			UpdateTrack(self);
+		}
+			
+		if(self->body.position.y > -8)
+			self->body.position.x += self->speed * self->hdir;
 
-	if (self->body.position.y % 8 == 4) {
-		self->hdir = -self->hdir;
-		UpdateTrack(self);
+		if (self->body.position.y % 8 == 4) {
+			self->hdir = -self->hdir;
+			UpdateTrack(self);
+		}
+
 	}
 
 	Tick(&self->body);
@@ -123,8 +145,8 @@ bool IsMushroomAhead(Centipede_t *self) {
 	pos.x += (self->hdir < 0) ? -5 : 12;
 	
 	return (
-		IsMushroomPresent(pos.x, pos.y) 
-		|| IsMushroomPresent(self->body.position.x, self->body.position.y)
+		GetMushroom(pos) 
+		|| GetMushroom(self->body.position)
 	);
 }
 
