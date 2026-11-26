@@ -4,6 +4,8 @@
 #include "cirno.hh"
 #include "structs/player.hh"
 
+#include "screen-text.hh"
+
 enum GameState {
 	kGameState_Menu,
 	kGameState_Paused
@@ -39,5 +41,16 @@ struct Game_t {
 };
 
 extern Game_t g_game;
+
+
+void DrawMenu() {
+
+}
+
+void ResetGame() {
+
+}
+
+
 
 #endif // GAME_HH

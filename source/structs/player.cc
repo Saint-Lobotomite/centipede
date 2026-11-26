@@ -90,24 +90,27 @@ void Tick(Player_t *self) {
 	new_pos.x -= 3;
 	new_pos.y -= 3;
 
-	double angle;
-	
-	Vector2_t delta;
+	double magnitude;
+
+	double delta[2];
 	
   for (int i = kPlayer_speed; i > 0; i--) {
 		old_pos = self->body.position;
 
-		delta = Sub(new_pos, old_pos);
+		delta[0] = double(new_pos.x - old_pos.x);
+		delta[1] = double(new_pos.y - old_pos.y);
 
     if (isZero(delta)) { i = 0; }
     else {
 
-      angle = atan2(
-        delta.x,
-        delta.y
-      );
+      magnitude = sqrt(
+				delta.x * delta.x,
+				delta.y * delta.y
+			);
+			delta[0] /= magnitude;
+			delta[1] /= magnitude;
 
-			self->body.position.x += (int)round(sin(angle));
+			self->body.position.x += (int)round(delta.x);
 			if (
 				GetMushroom(self->body.position.x, self->body.position.y + 2)
 				|| GetMushroom(self->body.position.x + 7, self->body.position.y + 2)
@@ -116,7 +119,7 @@ void Tick(Player_t *self) {
 			) 
 				self->body.position.x = old_pos.x;
 
-			self->body.position.y += (int)round(cos(angle));
+			self->body.position.y += (int)round(delta.y);
 			if (
 				GetMushroom(self->body.position.x, self->body.position.y + 2)
 				|| GetMushroom(self->body.position.x + 7, self->body.position.y + 2)
