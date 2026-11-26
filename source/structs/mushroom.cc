@@ -85,7 +85,7 @@ void Poison(Mushroom_t *self) {
 
 
 void ClearMushrooms() {
-	for (int j = 0; j < kTileSize.y; j++) {
+	for (int j = 1; j < kTileSize.y; j++) {
     for (int i = 0; i < kTileSize.x; i++) {
 			Destruct(&kMushroom_registry[i][j]);
     }

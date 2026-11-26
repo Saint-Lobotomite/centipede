@@ -4,16 +4,16 @@
 #include "cirno.hh"
 #include "structs/player.hh"
 
-#include "screen-text.hh"
-
 enum GameState {
-	kGameState_Menu,
-	kGameState_Paused
+	kGameState_SinglePlayer,
+	kGameState_MultiPlayer
 };
 
 const u1 kTargetFps = 60;
 
-const int kPixelScale = 4;
+const unsigned int g_bonus_interval = 12000;
+
+const int kPixelScale = 3;
 
 const Vector2_t kTileSize = {32, 30};
 const Vector2_t kWindowSize = {
@@ -21,7 +21,7 @@ const Vector2_t kWindowSize = {
 	kTileSize.y * 8
 };
 const Vector2_t kPlayableBounds = {
-	(kTileSize.y - 4) *8,
+	(kTileSize.y - 5) *8,
 	(kTileSize.y - 1) *8
 };
 
@@ -43,13 +43,10 @@ struct Game_t {
 extern Game_t g_game;
 
 
-void DrawMenu() {
+void PutMenu();
+void PutCredits();
 
-}
-
-void ResetGame() {
-
-}
+void SwitchToPlayer(u1 i);
 
 
 

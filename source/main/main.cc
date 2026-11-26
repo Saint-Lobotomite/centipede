@@ -12,6 +12,7 @@
 #include "../loader.hh"
 #include "update.hh"
 #include "render.hh"
+#include "../score.hh"
 
 #include "../structs/centipede.hh" // TEMP
 #include "../structs/mushroom.hh"
@@ -33,6 +34,7 @@ int esat::main(int argc, char **argv) {
 
 	LoadAssets();
 
+	/*
 	// testinggg
 	// Spawn centis
 	Centipede_t *buddy = nullptr;
@@ -47,20 +49,13 @@ int esat::main(int argc, char **argv) {
 
 		if (old != nullptr) LinkTo(buddy, old);
 		old = buddy;
-	}
+	}*/
 
-	// Spawn scrooms
-	SpreadMushrooms();
 
-	kPlayer_registry[0] = {};
-	g_game.current_player = &kPlayer_registry[0];
-	g_game.current_player->active = true;
-	g_game.current_player->body.position = {
-		0, kPlayableBounds.y
-	};
+	PutNumber(0, 0, 0);
+	PutNumber(0, 24, 0);
 
-	// Text test
-	PutNumber(92923, 0,0);
+	Start_Menu_Routine();
 
 	while(
 		esat::WindowIsOpened() 

@@ -2,7 +2,7 @@
 
 #include "game.hh"
 #include "structs/mask.hh"
-#include "structs/body.hh"
+#include "structs/mushroom.hh"
 
 bool BoundaryCheck(Vector2_t pos, Vector2_t size) {
   return (
@@ -44,4 +44,13 @@ Vector2_t AABBOverlap(Body_t *A, Body_t *B) {
     min(A->position.y + sA.y, B->position.y + sB.y) 
     - max(A->position.y, B->position.y)
   };
+}
+
+bool IsMushroomBlocked(Player_t *A) {
+  return (
+    GetMushroom(A->body.position.x, A->body.position.y + 2)
+		|| GetMushroom(A->body.position.x + 7, A->body.position.y + 2)
+		|| GetMushroom(A->body.position.x, A->body.position.y + 9)
+		|| GetMushroom(A->body.position.x + 7, A->body.position.y + 9)
+  );
 }

@@ -15,6 +15,10 @@
 
 Player_t kPlayer_registry[3] = {};
 
+void Dead(Player_t *self) {
+	self->dying = true;
+}
+
 void UpdateTrack(Player_t *self) {
   self->body.track_tick = self->shot_active;
 }
@@ -59,6 +63,7 @@ void Tick(Player_t *self) {
 									Dead(centi);
 									i = kCentipede_registry_capacity;
 									self->shot_active = false;
+									UpdateTrack(self);
 								}
 
 							}
@@ -100,36 +105,26 @@ void Tick(Player_t *self) {
 		delta[0] = double(new_pos.x - old_pos.x);
 		delta[1] = double(new_pos.y - old_pos.y);
 
-    if (isZero(delta)) { i = 0; }
+    if (delta[0] == 0 && delta[1] == 0) { i = 0; }
     else {
 
       magnitude = sqrt(
-				delta.x * delta.x,
-				delta.y * delta.y
+				delta[0] * delta[0]
+				+ delta[1] * delta[1]
 			);
 			delta[0] /= magnitude;
 			delta[1] /= magnitude;
 
-			self->body.position.x += (int)round(delta.x);
-			if (
-				GetMushroom(self->body.position.x, self->body.position.y + 2)
-				|| GetMushroom(self->body.position.x + 7, self->body.position.y + 2)
-				|| GetMushroom(self->body.position.x, self->body.position.y + 10)
-				|| GetMushroom(self->body.position.x + 7, self->body.position.y + 10)
-			) 
+			self->body.position.x += (int)round(delta[0]);
+			if (IsMushroomBlocked(self)) 
 				self->body.position.x = old_pos.x;
 
-			self->body.position.y += (int)round(delta.y);
-			if (
-				GetMushroom(self->body.position.x, self->body.position.y + 2)
-				|| GetMushroom(self->body.position.x + 7, self->body.position.y + 2)
-				|| GetMushroom(self->body.position.x, self->body.position.y + 10)
-				|| GetMushroom(self->body.position.x + 7, self->body.position.y + 10)
-			) 
+			self->body.position.y += (int)round(delta[1]);
+			if (IsMushroomBlocked(self)) 
 				self->body.position.y = old_pos.y;
 
 			self->body.position.x = clamp(self->body.position.x, 0, kWindowSize.x - 8);
-			self->body.position.y = clamp(self->body.position.y, kPlayableBounds.x, kPlayableBounds.y);
+			self->body.position.y = clamp(self->body.position.y + 2, kPlayableBounds.x, kPlayableBounds.y) - 2;
     }
 	}
 

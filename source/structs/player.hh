@@ -8,6 +8,7 @@
 
 struct Player_t {
   bool active = false;
+  bool dying = false;
 
   u1 lives = 0;
   
@@ -36,5 +37,7 @@ void UpdateTrack(Player_t *self);
 void Tick(Player_t *self);
 
 void Shoot(Player_t *self);
+
+void Dead(Player_t *self);
 
 #endif // PLAYER_HH

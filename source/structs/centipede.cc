@@ -102,7 +102,7 @@ void Tick(Centipede_t *self) {
 					self->poisoned = false;
 				} else if (
 					self->vdir < 0
-					&& self->body.position.y < kPlayableBounds.x // Maximo del jugador
+					&& self->body.position.y <= kPlayableBounds.x // Maximo del jugador
 				) {
 					self->vdir = 1;
 				}
