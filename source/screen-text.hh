@@ -10,5 +10,7 @@ void PutText(const char *txt, u1 x, u1 y);
 
 void PutNumber(unsigned int n, u1 x, u1 y);
 
+void PutTinyNumber(u1 n, u1 x, u1 y);
+
 
 #endif // SCREEN_TEXT_HH

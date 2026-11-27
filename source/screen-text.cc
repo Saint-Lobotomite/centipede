@@ -51,3 +51,13 @@ void PutNumber(unsigned int n, u1 x, u1 y) {
 
   PutText(&txt[0], x, y);
 }
+
+void PutTinyNumber(u1 n, u1 x, u1 y) {
+  n = clamp(n, 0, 99);
+
+  char txt[3] = {'0', '0', 0};
+  
+  sprintf(txt, "%02d", n);
+
+  PutText(&txt[0], x, y);
+}

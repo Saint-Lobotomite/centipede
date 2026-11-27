@@ -38,20 +38,22 @@ void Start_Menu_Routine() {
 }
 
 void Menu_Routine() {
+  if (g_game.current_player->dying)
+      PlayerDead_Subroutine();
+  else {
+    UpdateAutoPlay();
+
+    Tick(g_game.current_player);
+
+    World_Subroutine();
+  }
+
   if (esat::IsKeyDown('C'))
     PutCredits();
 
+  if (esat::IsSpecialKeyDown(esat::kSpecialKey_Enter) && g_game.credits > 0)
+    Start_Game_Routine(false);
     // enter
-
-  if (g_game.current_player->dying)
-      PlayerDead_Subroutine();
-    else {
-      UpdateAutoPlay();
-
-      Tick(g_game.current_player);
-
-      World_Subroutine();
-    }
 }
 
 
@@ -64,19 +66,24 @@ void Start_Game_Routine(bool multiplayer) {
 	SwitchToPlayer(0); // 1
 
   g_game.tick = 0;
+
+  g_game.GameState = 
+    multiplayer? kGameState_MultiPlayer : kGameState_SinglePlayer;
 }
 
 
 void Game_Routine() {
 
-  if (g_game.tick <= 120) { // Anuncia el jugador, 2 segundos
+  if (g_game.tick <= 150) { // Anuncia el jugador
 
     if (g_game.tick == 1) {
-      PutText("start player", 8, 15);
-      PutNumber(g_game.current_player_n, 21, 15);
+      if (g_game.current_player_n == 0)
+        PutText("start player 1", 8, 15);
+      else
+        PutText("start player 2", 8, 15);
     }
     
-    if (g_game.tick == 120) {
+    if (g_game.tick == 150) { // 2.5 segs
       ClearMushrooms();
 
       SpreadMushrooms();
@@ -130,7 +137,7 @@ void World_Subroutine() {
 // Cambia el jugador
 unsigned int g_playerdead_sub_tick = 0;
 void PlayerDead_Subroutine() {
-
+  Shoot(g_game.current_player);
 }
 
 

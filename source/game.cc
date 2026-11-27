@@ -32,7 +32,7 @@ void PutMenu() {
 void PutCredits() {
 	if (g_game.credits > 0) {
 		PutText("credits", 10, 13);
-    PutNumber(g_game.credits, 17, 13);
+    PutTinyNumber(g_game.credits, 18, 13);
 	}
 }
 
